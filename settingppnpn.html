@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Survei</title>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Font Awesome & Google Fonts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Pacifico&display=swap" rel="stylesheet" />
+
+  <style>
+  .sidebar-link.active {
+    background-color: #0d47a1;
+    color: white !important;
+    font-weight: 600;
+  }
+
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .font-pacifico {
+      font-family: 'Pacifico', cursive;
+    }
+  </style>
+</head>
+
+<body class="bg-[#f0f5fa] min-h-screen flex flex-col">
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="flex flex-col w-56 bg-[#3f4661] text-[#a0a6b8] select-none">
+      <div class="flex items-center h-16 px-5 border-b border-[#2f344a]">
+        <span class="font-pacifico text-white text-2xl">Admin Survei</span>
+      </div>
+    <nav class="flex flex-col flex-1">
+  <a href="dashboard.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="website">
+    <i class="fas fa-globe"></i> Website
+  </a>
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleUserDropdown()" data-id="user">
+    <i class="fas fa-users"></i> User
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="userDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a href="userpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="userpegawai">
+      <i class="fas fa-users"></i>User Pegawai
+    </a>
+    <a href="userppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="userppnpn">
+      <i class="fas fa-users"></i>User PPNPN
+    </a>
+  </div>
+</div>
+  <a href="medalist.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="medalist">
+    <i class="fas fa-cubes"></i> Medalist
+  </a>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="role">
+    <i class="fas fa-lock"></i> Role
+  </a> -->
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="menu">
+    <i class="fas fa-bars"></i> Menu
+  </a> -->
+  <a href="triwulan.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="assign-role">
+    <i class="fas fa-cog"></i> Setting Triwulan
+  </a>
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleSettingDropdown()" data-id="user">
+    <i class="fas fa-link"></i> Setting Survei
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="settingDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="settingpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingpegawai">
+      <i class="fas fa-link"></i>Setting Pegawai
+    </a>
+    <a href="settingppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingppnpn">
+      <i class="fas fa-link"></i>Setting PPNPN
+    </a>
+  </div>
+</div>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="layout"> 
+    <i class="fas fa-desktop"></i> Layout Setting
+  </a> -->
+</nav>
+
+
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Topbar -->
+      <header class="flex items-center bg-[#0d47a1] h-14 px-5 text-white relative">
+        <button class="lg:hidden"><i class="fas fa-bars text-xl"></i></button>
+        <div class="ml-auto flex items-center gap-5">
+          <button class="hover:opacity-80" onclick="goToTriwulan()">
+  <i class="fas fa-cog text-xl"></i>
+</button>
+<script>
+  function goToTriwulan() {
+    // Simpan ID sidebar ke localStorage agar link "Assign Triwulan" aktif biru
+    localStorage.setItem('activeSidebar', 'assign-role');
+    // Arahkan ke halaman triwulan
+    window.location.href = 'triwulan.html';
+  }
+  function goToMedalist() {
+  localStorage.setItem('activeSidebar', 'medalist');
+  window.location.href = 'medalist.html';
+}
+
+</script>
+          <div class="relative">
+  <button onclick="toggleDropdown()" class="w-9 h-9 rounded-full overflow-hidden border border-white">
+    <img src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" alt="User" class="w-full h-full object-cover" />
+  </button>
+  <div id="dropdownProfile" class="absolute right-0 mt-2 w-56 bg-[#0d47a1] rounded-md shadow-lg opacity-0 invisible transition z-10">
+    <div class="flex flex-col items-center p-5 border-b border-[#f7dede]">
+      <img class="w-20 h-20 rounded-full object-cover" src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" />
+      <p id="adminName" class="mt-3 font-semibold text-[#f7dede] text-center">-</p>
+      <p id="adminEmail" class="text-xs text-[#f7dede] text-center">-</p>
+    </div>
+    <button onclick="logout()" class="w-full text-left px-5 py-3 hover:bg-red-600 text-white">Logout</button>
+  </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumb -->
+      <nav class="bg-white px-5 py-3 text-sm text-[#3b82f6]">
+        <a class="hover:underline" href="#">Home</a>
+        <span class="mx-1 text-[#6b7280]">/</span>
+        <span>Setting PPNPN</span>
+      </nav>
+
+      <!-- Content -->
+      <main class="flex-1 p-6 bg-[#f0f5fa] space-y-6">
+  <div id="filterContainer" class="flex flex-wrap gap-4 mb-4">
+    <div>
+      <label class="block text-sm text-gray-600 mb-1">Filter Triwulan</label>
+      <select id="filterTriwulan" class="border rounded p-2 text-sm">
+        <option value="">Semua</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm text-gray-600 mb-1">Filter Responden</label>
+      <select id="filterResponden" class="border rounded p-2 text-sm">
+        <option value="">Semua</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm text-gray-600 mb-1">Filter Nama Terpilih</label>
+      <select id="filterNamaTerpilih" class="border rounded p-2 text-sm">
+        <option value="">Semua</option>
+      </select>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Data Hasil Survei Best PPNPN</h2>
+
+  <div id="dataContainer" class="space-y-6"></div>
+</main>
+
+
+
+
+      <!-- Footer -->
+      <footer class="text-xs text-gray-500 text-center py-3">
+        ©2025 <a class="text-[#3b82f6] hover:underline" target="_blank">www.sisfo22uh.com</a>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+  function toggleUserDropdown() {
+    const dropdown = document.getElementById("userDropdown");
+    dropdown.classList.toggle("hidden");
+  }
+  function toggleSettingDropdown() {
+    const dropdown = document.getElementById("settingDropdown");
+    dropdown.classList.toggle("hidden");
+  }
+</script>
+
+  <script>
+  function toggleDropdown() {
+  const dropdown = document.getElementById("dropdownProfile");
+  const isVisible = dropdown.classList.contains("opacity-100");
+
+  if (isVisible) {
+    dropdown.classList.remove("opacity-100", "visible");
+    dropdown.classList.add("opacity-0", "invisible");
+  } else {
+    dropdown.classList.remove("opacity-0", "invisible");
+    dropdown.classList.add("opacity-100", "visible");
+  }
+}
+
+</script>
+<script>
+  function logout() {
+  auth.signOut().then(() => {
+    window.location.href = "index.html";
+  }).catch(error => {
+    console.error("Gagal logout:", error);
+  });
+}
+</script>
+
+  <script>
+  // Ambil semua link sidebar
+  const links = document.querySelectorAll('.sidebar-link');
+
+  // Tambahkan event listener ke setiap link
+  links.forEach(link => {
+    link.addEventListener('click', function () {
+      const id = link.getAttribute('data-id');
+      // Simpan ID ke localStorage
+      localStorage.setItem('activeSidebar', id);
+    });
+  });
+
+  // Ambil ID aktif dari localStorage
+  const activeId = localStorage.getItem('activeSidebar');
+  if (activeId) {
+    links.forEach(link => {
+      link.classList.remove('bg-[#0d47a1]', 'text-white', 'font-semibold');
+      const id = link.getAttribute('data-id');
+      if (id === activeId) {
+        link.classList.add('bg-[#0d47a1]', 'text-white', 'font-semibold');
+      }
+    });
+  }
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
+  authDomain: "surveikppnmajene.firebaseapp.com",
+  databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
+  projectId: "surveikppnmajene",
+  storageBucket: "surveikppnmajene.firebasestorage.app",
+  messagingSenderId: "640777729032",
+  appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
+  measurementId: "G-36WTJ9Q78P"
+
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = "index.html";
+  } else {
+    if (user.email !== "sisfo22uh@gmail.com") {
+      alert("❌ Hanya akun admin yang diizinkan.");
+      auth.signOut();
+      window.location.href = "index.html";
+    } else {
+      // ✅ Set nama dan email admin di topbar dropdown
+      document.getElementById("adminName").textContent = "Admin Sistem";
+      document.getElementById("adminEmail").textContent = user.email;
+    }
+  }
+});
+</script>
+
+<script>
+
+    let allData = {}; 
+  // Fungsi buat generate tabel
+function buatTabelBestSurvei(judul, dataObj, path) {
+  const container = document.getElementById("dataContainer");
+  const card = document.createElement("div");
+  card.className = "bg-white shadow rounded p-5 overflow-x-auto";
+
+  const header = document.createElement("h3");
+  header.className = "text-lg font-semibold text-gray-700 mb-4";
+  header.textContent = judul;
+
+  const table = document.createElement("table");
+  table.className = "min-w-full text-sm text-left text-gray-600 border";
+
+  const thead = document.createElement("thead");
+  thead.className = "text-xs text-white uppercase bg-[#0d47a1]";
+
+  const trHead = document.createElement("tr");
+  trHead.innerHTML = `
+    <th class="px-4 py-2 border text-center">No</th>
+    <th class="px-4 py-2 border">Triwulan</th>
+    <th class="px-4 py-2 border">Responden</th>
+    <th class="px-4 py-2 border">Nama Terpilih</th>
+    <th class="px-4 py-2 border">Jumlah Nilai</th>
+    <th class="px-4 py-2 border text-center">Aksi</th>
+  `;
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  tbody.className = "bg-white";
+
+  let no = 1;
+  const triwulans = Object.keys(dataObj);
+  triwulans.forEach(triwulan => {
+    const respondenObj = dataObj[triwulan];
+    Object.keys(respondenObj).forEach(responden => {
+      const hasilObj = respondenObj[responden];
+      Object.keys(hasilObj).forEach(namaTerpilih => {
+  const nilaiObj = hasilObj[namaTerpilih];
+  
+  // Hitung total nilai
+  let totalNilai = 0;
+  if (typeof nilaiObj === "object" && nilaiObj !== null) {
+    Object.values(nilaiObj).forEach(val => {
+      totalNilai += Number(val);
+    });
+  }
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td class="px-4 py-2 border text-center">${no++}</td>
+    <td class="px-4 py-2 border">${triwulan}</td>
+    <td class="px-4 py-2 border">${responden}</td>
+    <td class="px-4 py-2 border">${namaTerpilih}</td>
+    <td class="px-4 py-2 border">${totalNilai}</td>
+    <td class="px-4 py-2 border text-center space-x-2">
+  <button onclick="goToMedalist()" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition text-xs">
+  <i class="fas fa-eye"></i> Lihat Detail
+</button>
+
+  <button onclick="hapusDataBest('${path}/${triwulan}/${responden}/${namaTerpilih}')" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition text-xs">
+    <i class="fas fa-trash"></i>Hapus
+  </button>
+</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+    });
+  });
+
+  table.appendChild(tbody);
+  card.appendChild(header);
+  card.appendChild(table);
+  container.appendChild(card);
+}
+
+// Ambil dan tampilkan data Survei Best PPNPN & PPNPN
+const bestPaths = [
+//   { path: 'SurveiBestPPNPN', title: 'Survei Best PPNPN' },
+  { path: 'SurveiBestPPNP', title: 'Survei Best PPNPN' }
+];
+
+bestPaths.forEach(obj => {
+  db.ref(obj.path).once('value', snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      allData[obj.title] = { data: data, path: obj.path };
+      buatTabelBestSurvei(obj.title, data, obj.path);
+populateFiltersFromFirebase(); // isi filter dari Firebase
+
+    } else {
+      const container = document.getElementById("dataContainer");
+      const card = document.createElement("div");
+      card.className = "bg-white shadow rounded p-5";
+      card.innerHTML = `<h3 class="text-lg font-semibold text-gray-700 mb-2">${obj.title}</h3><p class="text-gray-500">Tidak ada data.</p>`;
+      container.appendChild(card);
+    }
+  });
+});
+
+
+// Hapus data di Survei Best
+function hapusDataBest(path) {
+  if (confirm("Yakin ingin menghapus data ini?")) {
+    db.ref(path).remove()
+      .then(() => {
+        alert("✅ Data berhasil dihapus.");
+        location.reload();
+      })
+      .catch(error => {
+        alert("❌ Gagal hapus data: " + error.message);
+      });
+  }
+}
+
+function populateFilters() {
+  const triwulanSet = new Set();
+  const respondenSet = new Set();
+  const namaTerpilihSet = new Set();
+
+  Object.values(allData).forEach(survei => {
+    const data = survei.data;
+    Object.keys(data).forEach(triwulan => {
+      triwulanSet.add(triwulan);
+      Object.keys(data[triwulan]).forEach(responden => {
+        respondenSet.add(responden);
+        Object.keys(data[triwulan][responden]).forEach(nama => {
+          namaTerpilihSet.add(nama);
+        });
+      });
+    });
+  });
+
+  // Isi dropdown
+  const triwulanFilter = document.getElementById("filterTriwulan");
+  triwulanSet.forEach(val => {
+    triwulanFilter.innerHTML += `<option value="${val}">${val}</option>`;
+  });
+
+  const respondenFilter = document.getElementById("filterResponden");
+  respondenSet.forEach(val => {
+    respondenFilter.innerHTML += `<option value="${val}">${val}</option>`;
+  });
+
+  const namaFilter = document.getElementById("filterNamaTerpilih");
+  namaTerpilihSet.forEach(val => {
+    namaFilter.innerHTML += `<option value="${val}">${val}</option>`;
+  });
+}
+
+
+document.getElementById("filterTriwulan").addEventListener("change", applyFilter);
+document.getElementById("filterResponden").addEventListener("change", applyFilter);
+document.getElementById("filterNamaTerpilih").addEventListener("change", applyFilter);
+
+function applyFilter() {
+  const triwulanVal = document.getElementById("filterTriwulan").value;
+  const respondenVal = document.getElementById("filterResponden").value;
+  const namaVal = document.getElementById("filterNamaTerpilih").value;
+
+  // Clear dataContainer tanpa hapus filter & header
+  const dataContainer = document.getElementById("dataContainer");
+  dataContainer.innerHTML = "";
+
+  Object.entries(allData).forEach(([judul, survei]) => {
+    const data = survei.data;
+    const path = survei.path;
+
+    // Filter data
+    const filteredData = {};
+    Object.keys(data).forEach(triwulan => {
+      if (triwulanVal && triwulan !== triwulanVal) return;
+      const resObj = data[triwulan];
+      const newResObj = {};
+      Object.keys(resObj).forEach(responden => {
+        if (respondenVal && responden !== respondenVal) return;
+        const namaObj = resObj[responden];
+        const newNamaObj = {};
+        Object.keys(namaObj).forEach(nama => {
+          if (namaVal && nama !== namaVal) return;
+          newNamaObj[nama] = namaObj[nama];
+        });
+        if (Object.keys(newNamaObj).length > 0) newResObj[responden] = newNamaObj;
+      });
+      if (Object.keys(newResObj).length > 0) filteredData[triwulan] = newResObj;
+    });
+
+    if (Object.keys(filteredData).length > 0) {
+      buatTabelBestSurvei(judul, filteredData, path);
+    }
+  });
+}
+
+function populateFiltersFromFirebase() {
+  // Kosongkan dulu dropdownnya
+  document.getElementById("filterTriwulan").innerHTML = `<option value="">Semua</option>`;
+  document.getElementById("filterResponden").innerHTML = `<option value="">Semua</option>`;
+  document.getElementById("filterNamaTerpilih").innerHTML = `<option value="">Semua</option>`;
+
+  // Isi default opsi Triwulan (pakai format TRIWULAN_I)
+  const triwulanOptions = ["TRIWULAN_I", "TRIWULAN_II", "TRIWULAN_III", "TRIWULAN_IV"];
+  triwulanOptions.forEach(val => {
+    document.getElementById("filterTriwulan").innerHTML += `<option value="${val}">${val}</option>`;
+  });
+
+  // Ambil daftar Triwulan dari SurveiBestPPNPN (tambahkan hanya kalau belum ada)
+  db.ref("SurveiBestPPNP").once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      const existingOptions = new Set(triwulanOptions);
+      Object.keys(data).forEach(val => {
+        if (!existingOptions.has(val)) {
+          document.getElementById("filterTriwulan").innerHTML += `<option value="${val}">${val}</option>`;
+        }
+      });
+    }
+  });
+
+  // Ambil daftar Responden dari RespondenPPNPN
+  db.ref("RespondenPPNPN").once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      Object.keys(data).forEach(nama => {
+        document.getElementById("filterResponden").innerHTML += `<option value="${nama}">${nama}</option>`;
+      });
+    }
+  });
+
+  // Ambil daftar Nama Terpilih dari DinilaiPPNPN
+  db.ref("DinilaiPPNPN").once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      Object.keys(data).forEach(nama => {
+        document.getElementById("filterNamaTerpilih").innerHTML += `<option value="${nama}">${nama}</option>`;
+      });
+    }
+  });
+}
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

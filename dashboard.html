@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Survei</title>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
+  <!-- Font Awesome & Google Fonts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Pacifico&display=swap" rel="stylesheet" />
+
+  <style>
+  .sidebar-link.active {
+    background-color: #0d47a1;
+    color: white !important;
+    font-weight: 600;
+  }
+
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .font-pacifico {
+      font-family: 'Pacifico', cursive;
+    }
+  </style>
+</head>
+
+<body class="bg-[#f0f5fa] min-h-screen flex flex-col">
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="flex flex-col w-56 bg-[#3f4661] text-[#a0a6b8] select-none">
+      <div class="flex items-center h-16 px-5 border-b border-[#2f344a]">
+        <span class="font-pacifico text-white text-2xl">Admin Survei</span>
+      </div>
+    <nav class="flex flex-col flex-1">
+  <a href="dashboard.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="website">
+    <i class="fas fa-globe"></i> Website
+  </a>
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleUserDropdown()" data-id="user">
+    <i class="fas fa-users"></i> User
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="userDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="userpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userpegawai">
+      <i class="fas fa-users"></i>User Pegawai
+    </a>
+    <a href="userppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userppnpn">
+      <i class="fas fa-users"></i>User PPNPN
+    </a>
+  </div>
+</div>
+
+  <a href="medalist.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="medalist">
+    <i class="fas fa-cubes"></i> Medalist
+  </a>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="role">
+    <i class="fas fa-lock"></i> Role
+  </a> -->
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="menu">
+    <i class="fas fa-bars"></i> Menu
+  </a> -->
+  <a href="triwulan.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="assign-role">
+    <i class="fas fa-cog"></i> Setting Triwulan
+  </a>
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleSettingDropdown()" data-id="user">
+    <i class="fas fa-link"></i> Setting Survei
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="settingDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="settingpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingpegawai">
+      <i class="fas fa-link"></i>Setting Pegawai
+    </a>
+    <a href="settingppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingppnpn">
+      <i class="fas fa-link"></i>Setting PPNPN
+    </a>
+  </div>
+</div>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="setting">
+    <i class="fas fa-cog"></i> Setting Website
+  </a>
+  <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="layout">
+    <i class="fas fa-desktop"></i> Layout Setting
+  </a> -->
+</nav>
+
+
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Topbar -->
+      <header class="flex items-center bg-[#0d47a1] h-14 px-5 text-white relative">
+        <button class="lg:hidden"><i class="fas fa-bars text-xl"></i></button>
+        <div class="ml-auto flex items-center gap-5">
+            <button class="hover:opacity-80" onclick="goToTriwulan()">
+  <i class="fas fa-cog text-xl"></i>
+</button>
+<script>
+  function goToTriwulan() {
+    // Simpan ID sidebar ke localStorage agar link "Assign Triwulan" aktif biru
+    localStorage.setItem('activeSidebar', 'assign-role');
+    // Arahkan ke halaman triwulan
+    window.location.href = 'triwulan.html';
+  }
+</script>
+
+
+          <!-- <button class="hover:opacity-80"><i class="fas fa-cog text-xl"></i></button> -->
+          <div class="relative">
+  <button onclick="toggleDropdown()" class="w-9 h-9 rounded-full overflow-hidden border border-white">
+    <img src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" alt="User" class="w-full h-full object-cover" />
+  </button>
+  <div id="dropdownProfile" class="absolute right-0 mt-2 w-56 bg-[#0d47a1] rounded-md shadow-lg opacity-0 invisible transition z-10">
+    <div class="flex flex-col items-center p-5 border-b border-[#f7dede]">
+      <img class="w-20 h-20 rounded-full object-cover" src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" />
+      <p id="adminName" class="mt-3 font-semibold text-[#f7dede] text-center">-</p>
+      <p id="adminEmail" class="text-xs text-[#f7dede] text-center">-</p>
+    </div>
+    <button onclick="logout()" class="w-full text-left px-5 py-3 hover:bg-red-600 text-white">Logout</button>
+  </div>
+
+
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumb -->
+      <nav class="bg-white px-5 py-3 text-sm text-[#3b82f6]">
+        <a class="hover:underline" href="#">Home</a>
+        <span class="mx-1 text-[#6b7280]">/</span>
+        <span>Dashboard</span>
+      </nav>
+
+      <!-- Content -->
+      <main class="flex-1 p-6 bg-[#f0f5fa] space-y-6">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Jumlah Responden Employee -->
+<div class="bg-white shadow rounded p-5 text-center">
+  <p class="text-gray-500 text-sm">Jumlah Responden Employee</p>
+  <h2 class="text-2xl font-bold text-green-600 mt-2" id="jumlahRespondenEmployee">-</h2>
+</div>
+
+<!-- Jumlah Responden PPNPN -->
+<div class="bg-white shadow rounded p-5 text-center">
+  <p class="text-gray-500 text-sm">Jumlah Responden PPNPN</p>
+  <h2 class="text-2xl font-bold text-blue-600 mt-2" id="jumlahRespondenPPNPN">-</h2>
+</div>
+
+          <div class="bg-white shadow rounded p-5 text-center">
+  <p class="text-gray-500 text-sm">Peringkat 1 Best Employee</p>
+  <h2 class="text-xl font-semibold text-red-600 mt-2" id="topEmployeeName">-</h2>
+</div>
+
+<div class="bg-white shadow rounded p-5 text-center">
+  <p class="text-gray-500 text-sm">Peringkat 1 Best PPNPN</p>
+  <h2 class="text-xl font-semibold text-purple-600 mt-2" id="topPPNPNName">-</h2>
+</div>
+
+        </div>
+
+        <!-- Grafik -->
+        <!-- Grafik Best Employee -->
+       
+<!-- Grafik dan Ringkasan dibagi 2 kolom -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <!-- Kolom 1: Grafik + Ringkasan Employee -->
+  <div class="space-y-4">
+    <div class="bg-white shadow rounded p-5">
+      <h3 class="text-lg font-semibold text-gray-700 mb-4">Grafik Nilai Rata-rata - Best Employee</h3>
+      <canvas id="grafikEmployee" height="100"></canvas>
+    </div>
+    <div class="bg-green-100 text-gray-700 shadow rounded p-5">
+      <h3 class="text-lg font-semibold mb-2">Total Skor Tertinggi Employee</h3>
+      <p class="text-3xl font-bold text-green-700" id="avgEmployeeDisplay">-</p>
+      <p class="text-sm mt-2 text-green-800" id="textJumlahRespondenEmployee">Dari 14 responden</p>
+      <div class="mt-4">
+        <button onclick="goToMedalist()" class="block text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition w-full">
+  <i class="fas fa-eye"></i> Lihat Detail
+</button>
+<script>
+  function goToMedalist() {
+  localStorage.setItem('activeSidebar', 'medalist');
+  window.location.href = 'medalist.html';}
+</script>
+        <!-- <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition w-full">Lihat Detail</button> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Kolom 2: Grafik + Ringkasan PPNPN -->
+  <div class="space-y-4">
+    <div class="bg-white shadow rounded p-5">
+      <h3 class="text-lg font-semibold text-gray-700 mb-4">Grafik Nilai Rata-rata - Best PPNPN</h3>
+      <canvas id="grafikPPNPN" height="100"></canvas>
+    </div>
+    <div class="bg-blue-100 text-gray-700 shadow rounded p-5">
+      <h3 class="text-lg font-semibold mb-2">Total Skor Tertinggi PPNPN</h3>
+      <p class="text-3xl font-bold text-blue-700" id="avgPPNPNDisplay">-</p>
+      
+    <p class="text-sm mt-2 text-blue-800" id="textJumlahRespondenPPNPN">Dari 25 responden</p>
+
+      <!-- <p class="text-sm mt-2 text-blue-800">Dari 80 responden</p> -->
+      <div class="mt-4">
+        <button onclick="goToMedalist()" class="block text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full">
+  <i class="fas fa-eye"></i> Lihat Detail
+</button>
+        <!-- <a href="medalist.html" class="block text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full">
+  Lihat Detail
+</a> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+        <!-- Ringkasan -->
+        <!-- <div class="bg-green-100 text-gray-700 shadow rounded p-5">
+          <h3 class="text-lg font-semibold mb-2">Total Skor Rata-rata</h3>
+          <p class="text-3xl font-bold text-green-700">89.5</p>
+          <p class="text-sm mt-2 text-green-800">Dari 200 responden</p>
+          <div class="mt-4">
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition w-full">Lihat Detail</button>
+          </div>
+        </div> -->
+      </main>
+
+      <!-- Footer -->
+      <footer class="text-xs text-gray-500 text-center py-3">
+        ©2025 <a class="text-[#3b82f6] hover:underline" target="_blank">www.sisfo22uh.com</a>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+  function toggleUserDropdown() {
+    const dropdown = document.getElementById("userDropdown");
+    dropdown.classList.toggle("hidden");
+  }
+  function toggleSettingDropdown() {
+    const dropdown = document.getElementById("settingDropdown");
+    dropdown.classList.toggle("hidden");
+  }
+</script>
+
+<script>
+  function toggleDropdown() {
+  const dropdown = document.getElementById("dropdownProfile");
+  const isVisible = dropdown.classList.contains("opacity-100");
+
+  if (isVisible) {
+    dropdown.classList.remove("opacity-100", "visible");
+    dropdown.classList.add("opacity-0", "invisible");
+  } else {
+    dropdown.classList.remove("opacity-0", "invisible");
+    dropdown.classList.add("opacity-100", "visible");
+  }
+}
+
+</script>
+<script>
+  function logout() {
+  auth.signOut().then(() => {
+    window.location.href = "index.html";
+  }).catch(error => {
+    console.error("Gagal logout:", error);
+  });
+}
+</script>
+
+  <script>
+  // Ambil semua link sidebar
+  const links = document.querySelectorAll('.sidebar-link');
+
+  // Tambahkan event listener ke setiap link
+  links.forEach(link => {
+    link.addEventListener('click', function () {
+      const id = link.getAttribute('data-id');
+      // Simpan ID ke localStorage
+      localStorage.setItem('activeSidebar', id);
+    });
+  });
+
+  // Ambil ID aktif dari localStorage
+//   const activeId = localStorage.getItem('activeSidebar');
+// Paksa set activeSidebar ke "website" hanya jika halaman ini adalah dashboard
+const currentPage = window.location.pathname.split('/').pop();
+if (currentPage === 'dashboard.html') {
+  localStorage.setItem('activeSidebar', 'website');
+}
+
+const activeId = localStorage.getItem('activeSidebar');
+
+  if (activeId) {
+    links.forEach(link => {
+      link.classList.remove('bg-[#0d47a1]', 'text-white', 'font-semibold');
+      const id = link.getAttribute('data-id');
+      if (id === activeId) {
+        link.classList.add('bg-[#0d47a1]', 'text-white', 'font-semibold');
+      }
+    });
+  }
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Konfigurasi Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
+  authDomain: "surveikppnmajene.firebaseapp.com",
+  databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
+  projectId: "surveikppnmajene",
+  storageBucket: "surveikppnmajene.firebasestorage.app",
+  messagingSenderId: "640777729032",
+  appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
+  measurementId: "G-36WTJ9Q78P"
+
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const auth = firebase.auth();
+
+  // Autentikasi admin
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+  window.location.href = "index.html";
+} else if (user.email !== "sisfo22uh@gmail.com") {
+  alert("❌ Hanya akun admin yang diizinkan.");
+  auth.signOut();
+  window.location.href = "index.html";
+} else {
+  document.getElementById("adminName").textContent = "Admin Sistem";
+  document.getElementById("adminEmail").textContent = user.email;
+
+  // ✅ Tambahkan ini:
+  localStorage.setItem("activeSidebar", "website");
+}
+
+  });
+
+  // Fungsi ambil data grafik
+  function ambilDataEmployeeTotal(path, canvasId, avgId, warna, idTopName = null) {
+  const komponen = ["Kedisiplinan", "Kerja sama", "Kreativitas", "Komitmen", "Manajemen Waktu", "Inisiatif", "Komunikasi", "Perilaku", "Tanggung Jawab", "Pengetahuan Teknis"];
+
+  db.ref(path).once('value').then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    const hasil = {};
+
+    for (const namaResponden in data) {
+      const penilaian = data[namaResponden];
+      for (const namaDinilai in penilaian) {
+        if (!hasil[namaDinilai]) hasil[namaDinilai] = Array(komponen.length).fill(0);
+        Object.values(penilaian[namaDinilai]).forEach((nilai, i) => {
+          hasil[namaDinilai][i] += (nilai ?? 0);
+        });
+      }
+    }
+
+    const labels = [];
+    const totalPerOrang = [];
+
+    for (const nama in hasil) {
+  const total = hasil[nama].reduce((a, b) => a + b, 0);
+  const rata = total / 10; // ✅ DIBAGI 10 saja, tanpa jumlah responden
+  labels.push(nama);
+  totalPerOrang.push(+rata.toFixed(2));
+}
+
+
+    const combined = labels.map((nama, i) => ({
+      nama,
+      nilai: totalPerOrang[i]
+    })).sort((a, b) => b.nilai - a.nilai).slice(0, 5);
+
+    if (idTopName && combined[0]) {
+      document.getElementById(idTopName).textContent = combined[0].nama;
+    }
+
+    const labelsTop5 = combined.map(item => item.nama);
+    const dataTop5 = combined.map(item => item.nilai);
+
+//     if (combined[0]) {
+//   document.getElementById(avgId).textContent = combined[0].nilai.toFixed(2);
+// }
+if (combined[0]) {
+  getJumlahResponden('RespondenEmployee').then(jumlahResponden => {
+    const nilaiTertinggi = combined[0].nilai;
+    const skorRataPerResponden = nilaiTertinggi / jumlahResponden;
+    document.getElementById(avgId).textContent = skorRataPerResponden.toFixed(2);
+  });
+}
+
+
+
+    // const totalTop5 = dataTop5.reduce((a, b) => a + b, 0);
+    // document.getElementById(avgId).textContent = totalTop5;
+
+    new Chart(document.getElementById(canvasId).getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labelsTop5,
+        datasets: [{
+          label: 'Total Nilai',
+          data: dataTop5,
+          backgroundColor: generateRandomColors(dataTop5.length),
+          borderRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  });
+}
+
+async function getJumlahResponden(path) {
+  const snapshot = await db.ref(path).once('value');
+  const data = snapshot.val();
+  return data ? Object.keys(data).length : 1; // default 1 supaya tidak error dibagi 0
+}
+
+
+
+function ambilDataPPNPNTotal(path, canvasId, avgId, warna, idTopName = null) {
+  const komponen = [
+    "Integritas", "Profesionalisme", "Sinergi", "Pelayanan", "Kesempurnaan",
+    "Satu Informasi", "Dua Menit", "Tiga Salam", "Rencana-Kerja-Monitor", "5R"
+  ];
+
+  db.ref(path).once('value').then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    const hasil = {};
+
+    for (const namaPenilai in data) {
+      const penilaian = data[namaPenilai];
+      for (const namaDinilai in penilaian) {
+        if (!hasil[namaDinilai]) hasil[namaDinilai] = Array(komponen.length).fill(0);
+        Object.values(penilaian[namaDinilai]).forEach((nilai, i) => {
+          hasil[namaDinilai][i] += (nilai ?? 0);
+        });
+      }
+    }
+
+    const labels = [];
+    const totalPerOrang = [];
+
+    for (const nama in hasil) {
+  const total = hasil[nama].reduce((a, b) => a + b, 0);
+  const rata = total / 10; // ✅ DIBAGI 10 saja, tanpa jumlah responden
+  labels.push(nama);
+  totalPerOrang.push(+rata.toFixed(2));
+}
+
+
+    const combined = labels.map((nama, i) => ({
+      nama,
+      nilai: totalPerOrang[i]
+    })).sort((a, b) => b.nilai - a.nilai).slice(0, 5);
+
+    if (idTopName && combined[0]) {
+      document.getElementById(idTopName).textContent = combined[0].nama;
+    }
+
+    const labelsTop5 = combined.map(item => item.nama);
+    const dataTop5 = combined.map(item => item.nilai);
+
+//     if (combined[0]) {
+//   document.getElementById(avgId).textContent = combined[0].nilai.toFixed(2);
+// }
+if (combined[0]) {
+  getJumlahResponden('RespondenPPNPN').then(jumlahResponden => {
+    const nilaiTertinggi = combined[0].nilai;
+    const skorRataPerResponden = nilaiTertinggi / jumlahResponden;
+    document.getElementById(avgId).textContent = skorRataPerResponden.toFixed(2);
+  });
+}
+
+
+    // const totalTop5 = dataTop5.reduce((a, b) => a + b, 0);
+    // document.getElementById(avgId).textContent = totalTop5;
+
+    new Chart(document.getElementById(canvasId).getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labelsTop5,
+        datasets: [{
+          label: 'Total Nilai',
+          data: dataTop5,
+          backgroundColor: generateRandomColors(dataTop5.length),
+          borderRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  });
+}
+
+function generateRandomColors(count) {
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    const color = `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`;
+    colors.push(color);
+  }
+  return colors;
+}
+
+
+
+
+  // Fungsi hitung jumlah responden Employee
+  function hitungRespondenEmployee(path, targetId) {
+  db.ref(path).once('value').then(snapshot => {
+    const data = snapshot.val();
+    const jumlah = data ? Object.keys(data).length : 0;
+    document.getElementById(targetId).textContent = jumlah;
+    document.getElementById("textJumlahRespondenEmployee").textContent = `Dari ${jumlah} responden`;
+  });
+}
+function hitungRespondenPPNPN(path, targetId) {
+  db.ref(path).once('value').then(snapshot => {
+    const data = snapshot.val();
+    const jumlah = data ? Object.keys(data).length : 0;
+    document.getElementById(targetId).textContent = jumlah;
+    document.getElementById("textJumlahRespondenPPNPN").textContent = `Dari ${jumlah} responden`;
+  });
+}
+
+
+  // Ambil Active Triwulan lalu jalankan semua fungsi
+  Promise.all([
+  db.ref("pengaturan/surveiemployee/aktifTriwulan").once("value"),
+  db.ref("pengaturan/surveippnp/aktifTriwulan").once("value")
+]).then(([empSnap, ppnpSnap]) => {
+  const triwulanEmployee = empSnap.val() || "TRIWULAN_II";
+  const triwulanPPNPN = ppnpSnap.val() || "TRIWULAN_II";
+
+  // Employee
+//   ambilDataEmployee(`SurveiBestEmployee/${triwulanEmployee}`, 'grafikEmployee', 'avgEmployeeDisplay', '#4caf50', true, 'topEmployeeName');
+//   hitungRespondenEmployee(`SurveiBestEmployee/${triwulanEmployee}`, "jumlahRespondenEmployee");
+hitungRespondenEmployee(`RespondenEmployee`, "jumlahRespondenEmployee");
+hitungRespondenPPNPN(`RespondenPPNPN`, "jumlahRespondenPPNPN");
+
+ambilDataEmployeeTotal(`SurveiBestEmployee/${triwulanEmployee}`, 'grafikEmployee', 'avgEmployeeDisplay', '#4caf50', 'topEmployeeName');
+ambilDataPPNPNTotal(`SurveiBestPPNP/${triwulanPPNPN}`, 'grafikPPNPN', 'avgPPNPNDisplay', '#2196f3', 'topPPNPNName');
+
+  // PPNPN
+//   ambilDataPPNPN(`SurveiBestPPNP/${triwulanPPNPN}`, 'grafikPPNPN', 'avgPPNPNDisplay', '#2196f3', false, 'topPPNPNName');
+//   hitungRespondenPPNPN(`SurveiBestPPNP/${triwulanPPNPN}`, "jumlahRespondenPPNPN");
+});
+
+
+</script>
+
+
+</body>
+</html>

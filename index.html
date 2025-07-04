@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#f0f5fa] flex items-center justify-center">
+
+  <div class="bg-white shadow-lg rounded-xl w-full max-w-sm px-8 py-10">
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-bold text-[#0d47a1] mb-1">Admin Survei</h1>
+      <p class="text-sm text-gray-500">Silakan login untuk masuk ke Halaman Admin</p>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-4">
+      <label for="email" class="block text-sm text-gray-700 font-medium mb-1">Email</label>
+      <input id="email" type="email" placeholder="admin@email.com" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#0d47a1]">
+    </div>
+
+    <!-- Password -->
+    <div class="mb-6">
+      <label for="password" class="block text-sm text-gray-700 font-medium mb-1">Password</label>
+      <input id="password" type="password" placeholder="Masukkan password" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#0d47a1]">
+    </div>
+
+    <!-- Tombol Login -->
+    <button onclick="loginAdmin()" class="w-full bg-[#0d47a1] hover:bg-blue-800 text-white font-medium py-2 rounded transition">Login</button>
+    <p id="loginStatus" class="text-sm text-center text-red-500 mt-3"></p>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
+      authDomain: "surveikppnmajene.firebaseapp.com",
+      databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
+      projectId: "surveikppnmajene",
+      storageBucket: "surveikppnmajene.firebasestorage.app",
+      messagingSenderId: "640777729032",
+      appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
+      measurementId: "G-36WTJ9Q78P"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function loginAdmin() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          if (email !== "sisfo22uh@gmail.com") {
+            document.getElementById("loginStatus").textContent = "❌ Hanya akun admin yang diizinkan.";
+            auth.signOut();
+            return;
+          }
+          localStorage.setItem("isLoggedIn", "true");
+          window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+          document.getElementById("loginStatus").textContent = "❌ " + error.message;
+        });
+    }
+  </script>
+
+</body>
+</html>
