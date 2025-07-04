@@ -115,8 +115,8 @@
     window.location.href = 'triwulan.html';
   }
   function goToMedalist() {
-  localStorage.setItem('activeSidebar', 'nilaippnpn');
-  window.location.href = 'nilaippnpn.html';
+  localStorage.setItem('activeSidebar', 'medalist');
+  window.location.href = 'medalist.html';
 }
 
 </script>
@@ -140,7 +140,7 @@
       <nav class="bg-white px-5 py-3 text-sm text-[#3b82f6]">
         <a class="hover:underline" href="#">Home</a>
         <span class="mx-1 text-[#6b7280]">/</span>
-        <span>Setting PPNPN</span>
+        <span>Setting Pegawai</span>
       </nav>
 
       <!-- Content -->
@@ -166,10 +166,23 @@
     </div>
   </div>
 
-  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Data Hasil Survei Best PPNPN</h2>
+ <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail Nilai Survei Best Employee</h1>
+  <div id="tabelDetail" class="overflow-x-auto bg-white rounded shadow p-4"></div>
 
-  <div id="dataContainer" class="space-y-6"></div>
+  <!-- <div id="dataContainer" class="space-y-6"></div> -->
 </main>
+<div id="modalEdit" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-[350px] space-y-4">
+    <h2 class="text-xl font-semibold">Edit Nilai</h2>
+    <p id="modalKomponen" class="text-sm text-gray-500"></p>
+    <input type="number" id="inputNilai" class="w-full border p-2 rounded text-sm" />
+    <div class="flex justify-end gap-2 pt-3">
+      <button onclick="tutupModal()" class="px-4 py-2 bg-gray-600 text-white rounded">Batal</button>
+      <button onclick="simpanEditNilai()" class="px-4 py-2 bg-blue-600 text-white rounded">Simpan</button>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -251,285 +264,164 @@
 <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
-  authDomain: "surveikppnmajene.firebaseapp.com",
-  databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
-  projectId: "surveikppnmajene",
-  storageBucket: "surveikppnmajene.firebasestorage.app",
-  messagingSenderId: "640777729032",
-  appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
-  measurementId: "G-36WTJ9Q78P"
-
+      authDomain: "surveikppnmajene.firebaseapp.com",
+      databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
+      projectId: "surveikppnmajene",
+      storageBucket: "surveikppnmajene.appspot.com",
+      messagingSenderId: "640777729032",
+      appId: "1:640777729032:web:a33f948c1d985b9d560dbd"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const auth = firebase.auth();
 
-auth.onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = "index.html";
-  } else {
-    if (user.email !== "sisfo22uh@gmail.com") {
-      alert("❌ Hanya akun admin yang diizinkan.");
-      auth.signOut();
-      window.location.href = "index.html";
-    } else {
-      // ✅ Set nama dan email admin di topbar dropdown
-      document.getElementById("adminName").textContent = "Admin Sistem";
-      document.getElementById("adminEmail").textContent = user.email;
-    }
-  }
-});
-</script>
+  const komponenEmployee = [
+    "Kedisiplinan", "Kerja sama", "Kreativitas", "Komitmen",
+    "Manajemen Waktu", "Inisiatif", "Komunikasi", "Perilaku",
+    "Tanggung Jawab", "Pengetahuan Teknis"
+  ];
 
-<script>
+  let globalData = {};
 
-    let allData = {}; 
-  // Fungsi buat generate tabel
-function buatTabelBestSurvei(judul, dataObj, path) {
-  const container = document.getElementById("dataContainer");
-  const card = document.createElement("div");
-  card.className = "bg-white shadow rounded p-5 overflow-x-auto";
+  function renderTabel(data) {
+  const container = document.getElementById("tabelDetail");
+  let html = `
+    <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300">
+      <thead class="bg-blue-800 text-white">
+        <tr>
+          <th class="border px-2 py-1">TRIWULAN</th>
+          <th class="border px-2 py-1">RESPONDEN</th>
+          <th class="border px-2 py-1">NAMA TERPILIH</th>
+          <th class="border px-2 py-1">KOMPONEN</th>
+          <th class="border px-2 py-1">NILAI</th>
+          <th class="border px-2 py-1">AKSI</th>
+        </tr>
+      </thead>
+      <tbody>`;
 
-  const header = document.createElement("h3");
-  header.className = "text-lg font-semibold text-gray-700 mb-4";
-  header.textContent = judul;
+  Object.keys(data).forEach(triwulan => {
+    Object.keys(data[triwulan]).forEach(responden => {
+      Object.keys(data[triwulan][responden]).forEach(namaTerpilih => {
+        const komponenObj = data[triwulan][responden][namaTerpilih];
+        const rowSpan = komponenEmployee.length;
 
-  const table = document.createElement("table");
-  table.className = "min-w-full text-sm text-left text-gray-600 border";
-
-  const thead = document.createElement("thead");
-  thead.className = "text-xs text-white uppercase bg-[#0d47a1]";
-
-  const trHead = document.createElement("tr");
-  trHead.innerHTML = `
-    <th class="px-4 py-2 border text-center">No</th>
-    <th class="px-4 py-2 border">Triwulan</th>
-    <th class="px-4 py-2 border">Responden</th>
-    <th class="px-4 py-2 border">Nama Terpilih</th>
-    <th class="px-4 py-2 border">Jumlah Nilai</th>
-    <th class="px-4 py-2 border text-center">Aksi</th>
-  `;
-  thead.appendChild(trHead);
-  table.appendChild(thead);
-
-  const tbody = document.createElement("tbody");
-  tbody.className = "bg-white";
-
-  let no = 1;
-  const triwulans = Object.keys(dataObj);
-  triwulans.forEach(triwulan => {
-    const respondenObj = dataObj[triwulan];
-    Object.keys(respondenObj).forEach(responden => {
-      const hasilObj = respondenObj[responden];
-      Object.keys(hasilObj).forEach(namaTerpilih => {
-  const nilaiObj = hasilObj[namaTerpilih];
-  
-  // Hitung total nilai
-  let totalNilai = 0;
-  if (typeof nilaiObj === "object" && nilaiObj !== null) {
-    Object.values(nilaiObj).forEach(val => {
-      totalNilai += Number(val);
-    });
+        komponenEmployee.forEach((komponen, index) => {
+  html += `<tr>`;
+  if (index === 0) {
+    html += `<td class="border px-2 py-1 align-mid" rowspan="${komponenEmployee.length}">${triwulan}</td>`;
+    html += `<td class="border px-2 py-1 align-mid" rowspan="${komponenEmployee.length}">${responden}</td>`;
+    html += `<td class="border px-2 py-1 align-mid" rowspan="${komponenEmployee.length}">${namaTerpilih}</td>`;
   }
 
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td class="px-4 py-2 border text-center">${no++}</td>
-    <td class="px-4 py-2 border">${triwulan}</td>
-    <td class="px-4 py-2 border">${responden}</td>
-    <td class="px-4 py-2 border">${namaTerpilih}</td>
-    <td class="px-4 py-2 border">${totalNilai}</td>
-    <td class="px-4 py-2 border text-center space-x-2">
-  <button onclick="goToMedalist()" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition text-xs">
-  <i class="fas fa-eye"></i> Lihat Detail
-</button>
-
-  <button onclick="hapusDataBest('${path}/${triwulan}/${responden}/${namaTerpilih}')" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition text-xs">
-    <i class="fas fa-trash"></i>Hapus
+  const nilai = komponenObj[index] ?? '-';
+  html += `<td class="border px-2 py-1">${komponen}</td>`;
+  html += `<td class="border px-2 py-1">${nilai}</td>`;
+  html += `<td class="border px-2 py-1 text-center">
+  <button onclick="editNilai('${triwulan}', '${responden}', '${namaTerpilih}', ${index}, '${komponen}')" title="Edit" class="text-blue-600 hover:text-blue-800 mr-2">
+    <i class="fas fa-edit"></i>
   </button>
-</td>
-  `;
-  tbody.appendChild(tr);
+  <button onclick="hapusNilai('${triwulan}', '${responden}', '${namaTerpilih}', ${index})" title="Hapus" class="text-red-600 hover:text-red-800">
+    <i class="fas fa-trash-alt"></i>
+  </button>
+</td>`;
+
+  html += `</tr>`;
 });
 
+      });
     });
   });
 
-  table.appendChild(tbody);
-  card.appendChild(header);
-  card.appendChild(table);
-  container.appendChild(card);
+  html += `</tbody></table>`;
+  container.innerHTML = html;
 }
-
-// Ambil dan tampilkan data Survei Best PPNPN & PPNPN
-const bestPaths = [
-//   { path: 'SurveiBestPPNPN', title: 'Survei Best PPNPN' },
-  { path: 'SurveiBestPPNP', title: 'Survei Best PPNPN' }
-];
-
-bestPaths.forEach(obj => {
-  db.ref(obj.path).once('value', snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      allData[obj.title] = { data: data, path: obj.path };
-      buatTabelBestSurvei(obj.title, data, obj.path);
-populateFiltersFromFirebase(); // isi filter dari Firebase
-
-    } else {
-      const container = document.getElementById("dataContainer");
-      const card = document.createElement("div");
-      card.className = "bg-white shadow rounded p-5";
-      card.innerHTML = `<h3 class="text-lg font-semibold text-gray-700 mb-2">${obj.title}</h3><p class="text-gray-500">Tidak ada data.</p>`;
-      container.appendChild(card);
-    }
-  });
-});
-
-
-// Hapus data di Survei Best
-function hapusDataBest(path) {
-  if (confirm("Yakin ingin menghapus data ini?")) {
-    db.ref(path).remove()
+function editNilai(triwulan, responden, namaTerpilih, index, komponenNama) {
+  const nilaiBaru = prompt(`Masukkan nilai baru untuk ${komponenNama}:`);
+  if (nilaiBaru !== null && !isNaN(nilaiBaru)) {
+    db.ref(`SurveiBestEmployee/${triwulan}/${responden}/${namaTerpilih}/${index}`)
+      .set(Number(nilaiBaru))
       .then(() => {
-        alert("✅ Data berhasil dihapus.");
-        location.reload();
+        alert("Nilai berhasil diupdate.");
+        init(); // reload data
       })
-      .catch(error => {
-        alert("❌ Gagal hapus data: " + error.message);
-      });
+      .catch(err => alert("Gagal update nilai: " + err.message));
   }
 }
 
-function populateFilters() {
-  const triwulanSet = new Set();
-  const respondenSet = new Set();
-  const namaTerpilihSet = new Set();
+function hapusNilai(triwulan, responden, namaTerpilih, index) {
+  const yakin = confirm("Hapus nilai komponen ini?");
+  if (yakin) {
+    db.ref(`SurveiBestEmployee/${triwulan}/${responden}/${namaTerpilih}/${index}`)
+      .remove()
+      .then(() => {
+        alert("Nilai berhasil dihapus.");
+        init(); // refresh
+      })
+      .catch(err => alert("Gagal menghapus nilai: " + err.message));
+  }
+}
 
-  Object.values(allData).forEach(survei => {
-    const data = survei.data;
-    Object.keys(data).forEach(triwulan => {
-      triwulanSet.add(triwulan);
-      Object.keys(data[triwulan]).forEach(responden => {
-        respondenSet.add(responden);
-        Object.keys(data[triwulan][responden]).forEach(nama => {
-          namaTerpilihSet.add(nama);
-        });
+
+  function applyFilter() {
+  const filterTriwulan = document.getElementById("filterTriwulan").value;
+  const filterResponden = document.getElementById("filterResponden").value;
+  const filterNama = document.getElementById("filterNamaTerpilih").value;
+
+  const filtered = {};
+
+  Object.entries(globalData).forEach(([triwulan, triData]) => {
+    if (filterTriwulan && triwulan !== filterTriwulan) return;
+    Object.entries(triData).forEach(([responden, resData]) => {
+      if (filterResponden && responden !== filterResponden) return;
+      Object.entries(resData).forEach(([namaTerpilih, nilaiObj]) => {
+        if (filterNama && namaTerpilih !== filterNama) return;
+        if (!filtered[triwulan]) filtered[triwulan] = {};
+        if (!filtered[triwulan][responden]) filtered[triwulan][responden] = {};
+        filtered[triwulan][responden][namaTerpilih] = nilaiObj;
       });
     });
   });
 
-  // Isi dropdown
-  const triwulanFilter = document.getElementById("filterTriwulan");
-  triwulanSet.forEach(val => {
-    triwulanFilter.innerHTML += `<option value="${val}">${val}</option>`;
-  });
-
-  const respondenFilter = document.getElementById("filterResponden");
-  respondenSet.forEach(val => {
-    respondenFilter.innerHTML += `<option value="${val}">${val}</option>`;
-  });
-
-  const namaFilter = document.getElementById("filterNamaTerpilih");
-  namaTerpilihSet.forEach(val => {
-    namaFilter.innerHTML += `<option value="${val}">${val}</option>`;
-  });
-}
-
-
-document.getElementById("filterTriwulan").addEventListener("change", applyFilter);
-document.getElementById("filterResponden").addEventListener("change", applyFilter);
-document.getElementById("filterNamaTerpilih").addEventListener("change", applyFilter);
-
-function applyFilter() {
-  const triwulanVal = document.getElementById("filterTriwulan").value;
-  const respondenVal = document.getElementById("filterResponden").value;
-  const namaVal = document.getElementById("filterNamaTerpilih").value;
-
-  // Clear dataContainer tanpa hapus filter & header
-  const dataContainer = document.getElementById("dataContainer");
-  dataContainer.innerHTML = "";
-
-  Object.entries(allData).forEach(([judul, survei]) => {
-    const data = survei.data;
-    const path = survei.path;
-
-    // Filter data
-    const filteredData = {};
-    Object.keys(data).forEach(triwulan => {
-      if (triwulanVal && triwulan !== triwulanVal) return;
-      const resObj = data[triwulan];
-      const newResObj = {};
-      Object.keys(resObj).forEach(responden => {
-        if (respondenVal && responden !== respondenVal) return;
-        const namaObj = resObj[responden];
-        const newNamaObj = {};
-        Object.keys(namaObj).forEach(nama => {
-          if (namaVal && nama !== namaVal) return;
-          newNamaObj[nama] = namaObj[nama];
-        });
-        if (Object.keys(newNamaObj).length > 0) newResObj[responden] = newNamaObj;
-      });
-      if (Object.keys(newResObj).length > 0) filteredData[triwulan] = newResObj;
-    });
-
-    if (Object.keys(filteredData).length > 0) {
-      buatTabelBestSurvei(judul, filteredData, path);
-    }
-  });
-}
-
-function populateFiltersFromFirebase() {
-  // Kosongkan dulu dropdownnya
-  document.getElementById("filterTriwulan").innerHTML = `<option value="">Semua</option>`;
-  document.getElementById("filterResponden").innerHTML = `<option value="">Semua</option>`;
-  document.getElementById("filterNamaTerpilih").innerHTML = `<option value="">Semua</option>`;
-
-  // Isi default opsi Triwulan (pakai format TRIWULAN_I)
-  const triwulanOptions = ["TRIWULAN_I", "TRIWULAN_II", "TRIWULAN_III", "TRIWULAN_IV"];
-  triwulanOptions.forEach(val => {
-    document.getElementById("filterTriwulan").innerHTML += `<option value="${val}">${val}</option>`;
-  });
-
-  // Ambil daftar Triwulan dari SurveiBestPPNPN (tambahkan hanya kalau belum ada)
-  db.ref("SurveiBestPPNP").once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      const existingOptions = new Set(triwulanOptions);
-      Object.keys(data).forEach(val => {
-        if (!existingOptions.has(val)) {
-          document.getElementById("filterTriwulan").innerHTML += `<option value="${val}">${val}</option>`;
-        }
-      });
-    }
-  });
-
-  // Ambil daftar Responden dari RespondenPPNPN
-  db.ref("RespondenPPNPN").once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      Object.keys(data).forEach(nama => {
-        document.getElementById("filterResponden").innerHTML += `<option value="${nama}">${nama}</option>`;
-      });
-    }
-  });
-
-  // Ambil daftar Nama Terpilih dari DinilaiPPNPN
-  db.ref("DinilaiPPNPN").once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      Object.keys(data).forEach(nama => {
-        document.getElementById("filterNamaTerpilih").innerHTML += `<option value="${nama}">${nama}</option>`;
-      });
-    }
-  });
+  renderTabel(filtered);
 }
 
 
 
+  function populateFilters(respondenList, dinilaiList) {
+  const selRes = document.getElementById("filterResponden");
+  const selNama = document.getElementById("filterNamaTerpilih");
+
+  selRes.innerHTML = `<option value="">Semua Responden</option>` + respondenList.map(x => `<option value="${x}">${x}</option>`).join('');
+  selNama.innerHTML = `<option value="">Semua Nama</option>` + dinilaiList.map(x => `<option value="${x}">${x}</option>`).join('');
+
+  selRes.onchange = applyFilter;
+  selNama.onchange = applyFilter;
+}
+
+
+ async function init() {
+  const snapshot = await db.ref("SurveiBestEmployee").once("value");
+  const data = snapshot.val();
+  globalData = data || {};
+
+  // Ambil key dari objek, karena struktur datamu bukan array
+  const resSnap = await db.ref("RespondenEmployee").once("value");
+  const respondenList = resSnap.exists() ? Object.keys(resSnap.val()) : [];
+
+  const dinilaiSnap = await db.ref("DinilaiEmployee").once("value");
+  const dinilaiList = dinilaiSnap.exists() ? Object.keys(dinilaiSnap.val()) : [];
+
+  renderTabel(globalData);
+  populateFilters(respondenList, dinilaiList);
+
+  const triwulanList = Object.keys(globalData);
+  const selTriwulan = document.getElementById("filterTriwulan");
+  selTriwulan.innerHTML = `<option value="">Semua</option>` + triwulanList.map(x => `<option value="${x}">${x}</option>`).join('');
+  selTriwulan.onchange = applyFilter;
+}
 
 
 
-
+  init();
 </script>
 
 

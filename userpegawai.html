@@ -82,6 +82,12 @@
     <a href="settingppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingppnpn">
       <i class="fas fa-link"></i>Setting PPNPN
     </a>
+    <a  href="nilaipegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaipegawai">
+      <i class="fas fa-link"></i>Nilai Pegawai
+    </a>
+    <a href="nilaippnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaippnpn">
+      <i class="fas fa-link"></i>Nilai PPNPN
+    </a>
   </div>
 </div>
   <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="setting">
@@ -315,6 +321,27 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+    if (!user) {
+      // ❌ Jika belum login, arahkan ke halaman login
+      window.location.href = "index.html";
+    } else {
+      // ✅ Jika sudah login, cek email
+      if (user.email !== "sisfo22uh@gmail.com") {
+        alert("❌ Hanya akun admin yang diizinkan.");
+        auth.signOut().then(() => {
+          window.location.href = "index.html";
+        });
+      } else {
+        // ✅ Tampilkan data admin di topbar
+        document.getElementById("adminName").textContent = "Admin Sistem";
+        document.getElementById("adminEmail").textContent = user.email;
+        // Panggil init jika verifikasi email berhasil
+        init();
+      }
+    }
+  });
 
   // Variabel global
   let refAktif = '';

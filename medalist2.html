@@ -339,7 +339,11 @@ auth.onAuthStateChanged(user => {
   const komponen = type === 'employee' ? komponenEmployee : komponenPPNP;
   const skala = type === 'employee' ? skalaEmployee : skalaPPNP;
 
-  // const skala = type === 'employee' ? 14 : 25;
+  // Kalau skala belum dimuat
+  if (skala === 0) {
+    container.innerHTML = '<p class="text-red-500">Data responden belum dimuat atau belum ada responden, silakan refresh atau cek data responden.</p>';
+    return;
+  }
 
   db.ref(`${path}/${triwulan}`).once('value').then(snapshot => {
     const data = snapshot.val();
@@ -363,40 +367,48 @@ auth.onAuthStateChanged(user => {
 
     // Proses hasil
     const rows = Object.entries(hasil).map(([nama, nilaiArr]) => {
-      const total = nilaiArr.reduce((a, b) => a + b, 0);        // jumlah semua nilai
-const rata2 = total / komponen.length;                    // total dibagi jumlah komponen (10)
-const skorAkhir = skala !== 0 ? rata2 / skala : 0;
-// rata-rata dibagi skala (14 atau 25)
+      const total = nilaiArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0);
+      const rata2 = komponen.length > 0 ? total / komponen.length : 0;
+      const skorAkhir = (skala && skala !== 0) ? rata2 / skala : 0;
 
-return {
-  nama,
-  nilai: nilaiArr.map(n => n.toFixed(2)),                 // nilai komponen asli
-  total: total.toFixed(2),                                // jumlah
-  rata: rata2.toFixed(2),                                 // rata-rata
-  skor: skorAkhir.toFixed(2)                              // skor akhir
-};
-
+      return {
+        nama,
+        nilai: nilaiArr.map(n => (isNaN(n) ? "0.00" : n.toFixed(2))),
+        total: total.toFixed(2),
+        rata: rata2.toFixed(2),
+        skor: skorAkhir.toFixed(2)
+      };
     }).sort((a, b) => b.total - a.total);
 
     hasilExport[type] = rows;
 
-    // Generate tabel
+    // Buat tabelnya
     let html = '<table class="min-w-full border rounded"><thead><tr class="bg-gray-200">';
     html += '<th class="border px-2 py-1 text-center">Peringkat</th><th class="border px-2 py-1">Nama</th>';
     komponen.forEach(k => html += `<th class="border px-2 py-1">${k}</th>`);
-    // html += '<th class="border px-2 py-1">Total</th><th class="border px-2 py-1">Rata-rata</th></tr></thead><tbody>';
-      html += '<th class="border px-2 py-1">Total</th><th class="border px-2 py-1">Rata-rata</th><th class="border px-2 py-1">Skor Akhir</th></tr></thead><tbody>';
+    html += '<th class="border px-2 py-1">Total</th><th class="border px-2 py-1">Rata-rata</th><th class="border px-2 py-1">Skor Akhir</th></tr></thead><tbody>';
 
-    rows.forEach((row, idx) => {
-      html += `<tr class="hover:bg-gray-100"><td class="border px-2 py-1 text-center">${idx + 1}</td><td class="border px-2 py-1">${row.nama}</td>`;
-      row.nilai.forEach(val => html += `<td class="border px-2 py-1">${val}</td>`);
-      html += `<td class="border px-2 py-1 font-semibold">${row.total}</td><td class="border px-2 py-1 font-semibold">${row.rata}</td> <td class="border px-2 py-1 font-semibold">${row.skor}</td></tr>`;
-    });
+   rows.forEach((row, idx) => {
+  html += `<tr class="hover:bg-gray-100">`;
+  html += `<td class="border px-2 py-1 text-center">${idx + 1}</td>`;
+  html += `<td class="border px-2 py-1">${row.nama}</td>`;
+
+  // pastikan nilai komponen selalu terisi semua kolomnya
+  for (let i = 0; i < komponen.length; i++) {
+    html += `<td class="border px-2 py-1">${row.nilai[i] ?? '0.00'}</td>`;
+  }
+
+  html += `<td class="border px-2 py-1 font-semibold">${row.total}</td>`;
+  html += `<td class="border px-2 py-1 font-semibold">${row.rata}</td>`;
+  html += `<td class="border px-2 py-1 font-semibold">${row.skor}</td>`;
+  html += `</tr>`;
+});
 
     html += '</tbody></table>';
     container.innerHTML = html;
   });
 }
+
 
 
   function downloadExcel(type) {
