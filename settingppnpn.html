@@ -50,14 +50,15 @@
     <i class="fas fa-caret-down ml-auto"></i>
   </button>
   <div id="userDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
-    <a href="userpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="userpegawai">
+    <a  href="userpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userpegawai">
       <i class="fas fa-users"></i>User Pegawai
     </a>
-    <a href="userppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="userppnpn">
+    <a href="userppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userppnpn">
       <i class="fas fa-users"></i>User PPNPN
     </a>
   </div>
 </div>
+
   <a href="medalist.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="medalist">
     <i class="fas fa-cubes"></i> Medalist
   </a>
@@ -67,9 +68,7 @@
   <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="menu">
     <i class="fas fa-bars"></i> Menu
   </a> -->
-  <a href="triwulan.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="assign-role">
-    <i class="fas fa-cog"></i> Setting Triwulan
-  </a>
+  
   <div class="relative group">
   <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleSettingDropdown()" data-id="user">
     <i class="fas fa-link"></i> Setting Survei
@@ -90,9 +89,35 @@
     </a>
   </div>
 </div>
-  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="layout"> 
-    <i class="fas fa-desktop"></i> Layout Setting
+
+<div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleMandarkeuDropdown()" data-id="user">
+    <i class="fas fa-clipboard-list"></i> MandarKEU
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="MandarkeuDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="usermandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="usermandarkeu">
+      <i class="fas fa-clipboard-list""></i>User MandarKEU
+    </a>
+    <a href="settingmandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingmandarkeu">
+      <i class="fas fa-clipboard-list""></i>Setting MandarKEU
+    </a>
+    <a  href="nilaimandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaimandarkeu">
+      <i class="fas fa-clipboard-list""></i>Nilai MandarKEU
+    </a>
+    
+  </div>
+</div>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="setting">
+    <i class="fas fa-cog"></i> Setting Website
   </a> -->
+  <a href="triwulan.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="assign-role">
+    <i class="fas fa-cog"></i> Setting Triwulan
+  </a>
+
+  <a href="settingweb.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="layout">
+    <i class="fas fa-poll"></i> Layout Triwulan
+  </a>
 </nav>
 
 
@@ -190,6 +215,10 @@
     const dropdown = document.getElementById("settingDropdown");
     dropdown.classList.toggle("hidden");
   }
+  function toggleMandarkeuDropdown() {
+      const dropdown = document.getElementById("MandarkeuDropdown");
+      dropdown.classList.toggle("hidden");
+    }
 </script>
 
   <script>

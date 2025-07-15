@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Survei</title>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Font Awesome & Google Fonts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Pacifico&display=swap" rel="stylesheet" />
+
+  <style>
+    .sidebar-link.active {
+      background-color: #0d47a1;
+      color: white !important;
+      font-weight: 600;
+    }
+
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .font-pacifico {
+      font-family: 'Pacifico', cursive;
+    }
+  </style>
+</head>
+
+<body class="bg-[#f0f5fa] min-h-screen flex flex-col">
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="flex flex-col w-56 bg-[#3f4661] text-[#a0a6b8] select-none">
+      <div class="flex items-center h-16 px-5 border-b border-[#2f344a]">
+        <span class="font-pacifico text-white text-2xl">Admin Survei</span>
+      </div>
+      <nav class="flex flex-col flex-1">
+  <a href="dashboard.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="website">
+    <i class="fas fa-globe"></i> Website
+  </a>
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleUserDropdown()" data-id="user">
+    <i class="fas fa-users"></i> User
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="userDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="userpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userpegawai">
+      <i class="fas fa-users"></i>User Pegawai
+    </a>
+    <a href="userppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="userppnpn">
+      <i class="fas fa-users"></i>User PPNPN
+    </a>
+  </div>
+</div>
+
+  <a href="medalist.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="medalist">
+    <i class="fas fa-cubes"></i> Medalist
+  </a>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="role">
+    <i class="fas fa-lock"></i> Role
+  </a> -->
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="menu">
+    <i class="fas fa-bars"></i> Menu
+  </a> -->
+  
+  <div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleSettingDropdown()" data-id="setting">
+    <i class="fas fa-link"></i> Setting Survei
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="settingDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="settingpegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingpegawai">
+      <i class="fas fa-link"></i>Setting Pegawai
+    </a>
+    <a href="settingppnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingppnpn">
+      <i class="fas fa-link"></i>Setting PPNPN
+    </a>
+    <a  href="nilaipegawai.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaipegawai">
+      <i class="fas fa-link"></i>Nilai Pegawai
+    </a>
+    <a href="nilaippnpn.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaippnpn">
+      <i class="fas fa-link"></i>Nilai PPNPN
+    </a>
+  </div>
+</div>
+
+<div class="relative group">
+  <button class="sidebar-link flex items-center gap-2 px-5 py-3 w-full hover:text-white focus:outline-none" onclick="toggleMandarkeuDropdown()" data-id="mandarkeu">
+    <i class="fas fa-clipboard-list"></i> MandarKEU
+    <i class="fas fa-caret-down ml-auto"></i>
+  </button>
+  <div id="MandarkeuDropdown" class="hidden flex-col ml-8 bg-[#4b5271] text-sm rounded-b overflow-hidden">
+    <a  href="usermandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="usermandarkeu">
+      <i class="fas fa-clipboard-list""></i>User MandarKEU
+    </a>
+    <a href="settingmandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="settingmandarkeu">
+      <i class="fas fa-clipboard-list""></i>Setting MandarKEU
+    </a>
+    <a  href="nilaimandarkeu.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white"data-id="nilaimandarkeu">
+      <i class="fas fa-clipboard-list""></i>Nilai MandarKEU
+    </a>
+    
+  </div>
+</div>
+  <!-- <a href="#" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="setting">
+    <i class="fas fa-cog"></i> Setting Website
+  </a> -->
+  <a href="triwulan.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="assign-role">
+    <i class="fas fa-cog"></i> Setting Triwulan
+  </a>
+
+  <a href="settingweb.html" class="sidebar-link flex items-center gap-2 px-5 py-3 hover:text-white" data-id="layout">
+    <i class="fas fa-poll"></i> Layout Triwulan
+  </a>
+</nav>
+
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Topbar -->
+      <header class="flex items-center bg-[#0d47a1] h-14 px-5 text-white relative">
+        <button class="lg:hidden"><i class="fas fa-bars text-xl"></i></button>
+        <div class="ml-auto flex items-center gap-5">
+          <button class="hover:opacity-80" onclick="goToTriwulan()">
+            <i class="fas fa-cog text-xl"></i>
+          </button>
+          <script>
+            function goToTriwulan() {
+              // Simpan ID sidebar ke localStorage agar link "Assign Triwulan" aktif biru
+              localStorage.setItem('activeSidebar', 'assign-role');
+              // Arahkan ke halaman triwulan
+              window.location.href = 'triwulan.html';
+            }
+            function goToMedalist() {
+              localStorage.setItem('activeSidebar', 'nilaipegawai');
+              window.location.href = 'nilaipegawai.html';
+            }
+            function goToNilaiMandarkeu() {
+            localStorage.setItem('activeSidebar', 'nilaimandarkeu');
+            window.location.href = 'nilaimandarkeu.html';
+        }
+
+          </script>
+          <div class="relative">
+            <button onclick="toggleDropdown()" class="w-9 h-9 rounded-full overflow-hidden border border-white">
+              <img src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" alt="User"
+                class="w-full h-full object-cover" />
+            </button>
+            <div id="dropdownProfile"
+              class="absolute right-0 mt-2 w-56 bg-[#0d47a1] rounded-md shadow-lg opacity-0 invisible transition z-10">
+              <div class="flex flex-col items-center p-5 border-b border-[#f7dede]">
+                <img class="w-20 h-20 rounded-full object-cover"
+                  src="https://storage.googleapis.com/a1aa/image/eced6bcc-d8bc-4ed7-8490-8a0076e08860.jpg" />
+                <p id="adminName" class="mt-3 font-semibold text-[#f7dede] text-center">-</p>
+                <p id="adminEmail" class="text-xs text-[#f7dede] text-center">-</p>
+              </div>
+              <button onclick="logout()" class="w-full text-left px-5 py-3 hover:bg-red-600 text-white">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumb -->
+      <nav class="bg-white px-5 py-3 text-sm text-[#3b82f6]">
+        <a class="hover:underline" href="#">Home</a>
+        <span class="mx-1 text-[#6b7280]">/</span>
+        <span>Setting MandarKEU</span>
+      </nav>
+
+      <!-- Content -->
+      <main class="flex-1 p-6 bg-[#f0f5fa] space-y-6">
+        <div id="filterContainer" class="flex flex-wrap gap-4 mb-4">
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">Filter Triwulan</label>
+            <select id="filterTriwulan" class="border rounded p-2 text-sm">
+              <option value="">Semua</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">Filter Responden</label>
+            <select id="filterResponden" class="border rounded p-2 text-sm">
+              <option value="">Semua</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">Filter Nama Terpilih</label>
+            <select id="filterNamaTerpilih" class="border rounded p-2 text-sm">
+              <option value="">Semua</option>
+            </select>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Data Hasil Survei Mandarkeu</h2>
+
+        <div class="bg-white shadow rounded p-5 overflow-x-auto mb-6">
+          <table id="tabelMandarkeu" class="min-w-full text-sm text-left text-gray-600 border">
+            <thead class="text-xs text-white uppercase bg-[#0d47a1]">
+              <tr>
+                <th class="px-4 py-2 border">Triwulan</th>
+                <th class="px-4 py-2 border">Responden</th>
+                <th class="px-4 py-2 border">Nama Dinilai</th>
+                <th class="px-4 py-2 border">Seksi</th>
+                <th class="px-4 py-2 border">Pertanyaan</th>
+                <th class="px-4 py-2 border">Nilai Total</th>
+                <th class="px-4 py-2 border text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMandarkeu"></tbody>
+          </table>
+        </div>
+
+      </main>
+
+
+
+
+      <!-- Footer -->
+      <footer class="text-xs text-gray-500 text-center py-3">
+        ©2025 <a class="text-[#3b82f6] hover:underline" target="_blank">www.sisfo22uh.com</a>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function toggleUserDropdown() {
+      const dropdown = document.getElementById("userDropdown");
+      dropdown.classList.toggle("hidden");
+    }
+    function toggleSettingDropdown() {
+      const dropdown = document.getElementById("settingDropdown");
+      dropdown.classList.toggle("hidden");
+    }
+    function toggleMandarkeuDropdown() {
+      const dropdown = document.getElementById("MandarkeuDropdown");
+      dropdown.classList.toggle("hidden");
+    }
+  </script>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdownProfile");
+      const isVisible = dropdown.classList.contains("opacity-100");
+
+      if (isVisible) {
+        dropdown.classList.remove("opacity-100", "visible");
+        dropdown.classList.add("opacity-0", "invisible");
+      } else {
+        dropdown.classList.remove("opacity-0", "invisible");
+        dropdown.classList.add("opacity-100", "visible");
+      }
+    }
+
+  </script>
+  <script>
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "index.html";
+      }).catch(error => {
+        console.error("Gagal logout:", error);
+      });
+    }
+  </script>
+  <script>
+  localStorage.setItem('activeSidebar', 'settingmandarkeu');
+</script>
+
+
+  <script>
+    // Ambil semua link sidebar
+const links = document.querySelectorAll('.sidebar-link');
+
+// Tambahkan event listener ke setiap link sidebar
+links.forEach(link => {
+  link.addEventListener('click', function () {
+    const id = link.getAttribute('data-id');
+    // Simpan ID ke localStorage sesuai link yang diklik
+    localStorage.setItem('activeSidebar', id);
+  });
+});
+
+// Ambil ID aktif dari localStorage dan aktifkan link yang sesuai
+const activeId = localStorage.getItem('activeSidebar');
+if (activeId) {
+  links.forEach(link => {
+    link.classList.remove('bg-[#0d47a1]', 'text-white', 'font-semibold');
+    if (link.getAttribute('data-id') === activeId) {
+      link.classList.add('bg-[#0d47a1]', 'text-white', 'font-semibold');
+    }
+  });
+}
+
+    
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
+      authDomain: "surveikppnmajene.firebaseapp.com",
+      databaseURL: "https://surveikppnmajene-default-rtdb.firebaseio.com",
+      projectId: "surveikppnmajene",
+      storageBucket: "surveikppnmajene.appspot.com",
+      messagingSenderId: "640777729032",
+      appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
+      measurementId: "G-36WTJ9Q78P"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user || user.email !== "sisfo22uh@gmail.com") {
+        alert("Hanya akun admin yang diizinkan.");
+        auth.signOut();
+        window.location.href = "index.html";
+      }
+    });
+
+    let allData = {};
+    populateFiltersFromFirebase();
+
+    function buatTabelBestSurveiMandarkeu(dataAll) {
+      const tbody = document.getElementById("tbodyMandarkeu");
+      tbody.innerHTML = "";
+
+      Object.keys(dataAll).forEach(triwulan => {
+        const dataTriwulan = dataAll[triwulan];
+        Object.keys(dataTriwulan).forEach(namaDinilai => {
+          const pegawaiData = dataTriwulan[namaDinilai];
+          const seksi = pegawaiData.seksi || "-";
+
+          Object.keys(pegawaiData).forEach(responden => {
+            if (responden === "seksi") return;
+            const jawabanObj = pegawaiData[responden];
+            const jumlahPertanyaan = Object.keys(jawabanObj).filter(k => k.startsWith('row')).length;
+            const nilaiTotal = jawabanObj.nilaiTotal || 0;
+
+           
+const tr = document.createElement("tr");
+tr.classList.add("row-triwulan", triwulan);
+tr.innerHTML = `
+    <td class="px-4 py-2 border">${triwulan}</td>
+    <td class="px-4 py-2 border">${responden}</td>
+    <td class="px-4 py-2 border">${namaDinilai}</td>
+    <td class="px-4 py-2 border">${seksi}</td>
+    <td class="px-4 py-2 border">${jumlahPertanyaan} Pertanyaan</td>
+    <td class="px-4 py-2 border">${nilaiTotal}</td>
+    <td class="px-4 py-2 border text-center">
+        <div class="flex justify-center gap-2">
+           <button onclick="goToNilaiMandarkeu()" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 text-xs flex items-center gap-1">
+    <i class="fas fa-eye"></i> Detail
+</button>
+
+            <button onclick="hapusDataBestMandarkeu('surveibestmandarkeu/${triwulan}/${namaDinilai}/${responden}')" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-xs flex items-center gap-1">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+            <button onclick="kirimWhatsapp('${triwulan}', '${responden}', '${namaDinilai}', '${seksi}', '${nilaiTotal}')" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 text-xs flex items-center gap-1">
+                <i class="fab fa-whatsapp"></i> WA
+            </button>
+        </div>
+    </td>
+`;
+
+            tbody.appendChild(tr);
+          });
+        });
+      });
+    }
+
+
+    db.ref("surveibestmandarkeu").once("value").then(snapshot => {
+      const data = snapshot.val();
+      if (data) {
+        allData = data; // Simpan data global untuk filter
+        buatTabelBestSurveiMandarkeu(data);
+      }
+    });
+
+
+    function hapusDataBestMandarkeu(path) {
+      if (confirm("Yakin ingin menghapus data ini?")) {
+        db.ref(path).remove()
+          .then(() => {
+            alert("✅ Data berhasil dihapus.");
+            location.reload();
+          })
+          .catch(error => {
+            alert("❌ Gagal hapus data: " + error.message);
+          });
+      }
+    }
+
+    document.getElementById("filterTriwulan").addEventListener("change", applyFilter);
+    document.getElementById("filterResponden").addEventListener("change", applyFilter);
+    document.getElementById("filterNamaTerpilih").addEventListener("change", applyFilter);
+
+    function applyFilter() {
+      const triwulanVal = document.getElementById("filterTriwulan").value;
+      const respondenVal = document.getElementById("filterResponden").value;
+      const namaVal = document.getElementById("filterNamaTerpilih").value;
+
+      const rows = document.querySelectorAll("#tbodyMandarkeu tr");
+
+      rows.forEach(row => {
+        const td = row.querySelectorAll("td");
+        const triwulan = td[0].textContent.trim();
+        const responden = td[1].textContent.trim();
+        const namaDinilai = td[2].textContent.trim();
+
+        const showTriwulan = !triwulanVal || triwulan === triwulanVal;
+        const showResponden = !respondenVal || responden === respondenVal;
+        const showNama = !namaVal || namaDinilai === namaVal;
+
+        if (showTriwulan && showResponden && showNama) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    function populateFiltersFromFirebase() {
+      document.getElementById("filterTriwulan").innerHTML = `<option value="">Semua Triwulan</option>`;
+      document.getElementById("filterResponden").innerHTML = `<option value="">Semua Responden</option>`;
+      document.getElementById("filterNamaTerpilih").innerHTML = `<option value="">Semua Nama Terpilih</option>`;
+
+      db.ref("surveibestmandarkeu").once("value").then(snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(val => {
+            document.getElementById("filterTriwulan").innerHTML += `<option value="${val}">${val}</option>`;
+          });
+        }
+      });
+
+      db.ref("RespondenMandarkeu").once("value").then(snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(nama => {
+            document.getElementById("filterResponden").innerHTML += `<option value="${nama}">${nama}</option>`;
+          });
+        }
+      });
+
+      db.ref("DinilaiMandarkeu").once("value").then(snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(nama => {
+            document.getElementById("filterNamaTerpilih").innerHTML += `<option value="${nama}">${nama}</option>`;
+          });
+        }
+      });
+    }
+
+    function kirimWhatsapp(triwulan, responden, nama, seksi, nilai) {
+    let nomorWA = '6289521142023'; // nomormu tetap
+    let pesan = `Assalamualaikum, berikut hasil survei:\n\n` +
+                `Triwulan: ${triwulan}\n` +
+                `Responden: ${responden}\n` +
+                `Nama Dinilai: ${nama}\n` +
+                `Seksi: ${seksi}\n` +
+                `Total Nilai: ${nilai}`;
+    let url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+    window.open(url, '_blank');
+}
+
+
+
+
+  </script>
+
+
+</body>
+
+</html>
