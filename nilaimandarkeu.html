@@ -330,11 +330,12 @@
     }
   </script>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-  <script>
+<script>
     const firebaseConfig = {
       apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
       authDomain: "surveikppnmajene.firebaseapp.com",
@@ -342,20 +343,32 @@
       projectId: "surveikppnmajene",
       storageBucket: "surveikppnmajene.appspot.com",
       messagingSenderId: "640777729032",
-      appId: "1:640777729032:web:a33f948c1d985b9d560dbd",
-      measurementId: "G-36WTJ9Q78P"
+      appId: "1:640777729032:web:a33f948c1d985b9d560dbd"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const auth = firebase.auth();
 
     auth.onAuthStateChanged(user => {
-      if (!user || user.email !== "sisfo22uh@gmail.com") {
-        alert("Hanya akun admin yang diizinkan.");
-        auth.signOut();
-        window.location.href = "index.html";
+    if (!user) {
+      // ❌ Jika belum login, arahkan ke halaman login
+      window.location.href = "index.html";
+    } else {
+      // ✅ Jika sudah login, cek email
+      if (user.email !== "sisfo22uh@gmail.com") {
+        alert("❌ Hanya akun admin yang diizinkan.");
+        auth.signOut().then(() => {
+          window.location.href = "index.html";
+        });
+      } else {
+        // ✅ Tampilkan data admin di topbar
+        document.getElementById("adminName").textContent = "Admin Sistem";
+        document.getElementById("adminEmail").textContent = user.email;
+        // Panggil init jika verifikasi email berhasil
+        init();
       }
-    });
+    }
+  });
 
     let allData = {};
     populateFiltersFromFirebase();
