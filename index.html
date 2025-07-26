@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>Login - Admin Survei</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Admin Survei</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Quicksand&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: 'poppins', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
-    .font-orbitron {
-      font-family: 'pacifico', sans-serif;
+    .font-pacifico {
+      font-family: 'Pacifico', cursive;
+    }
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
     }
   </style>
 </head>
-<body class="bg-[#002147] min-h-screen flex items-center justify-center">
+<body class="bg-gradient-to-br from-blue-100 to-blue-200 min-h-screen flex items-center justify-center">
 
-  <div class="w-full max-w-6xl h-[480px] flex border border-gray-300 rounded-lg overflow-hidden shadow-lg">
-    <!-- Left side -->
-    <div class="flex-1 flex items-center justify-center bg-[#00162e]">
-      <div class="flex flex-col items-center space-y-4">
-        <img alt="Logo" class="w-24 h-24 object-contain" src="images/logo.png"/>
-        <span class="text-[#FFD700] text-2xl font-orbitron tracking-wide">Admin Survei KPPN Majene</span>
-      </div>
+  <div class="w-full max-w-5xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+    
+    <!-- Sidebar -->
+    <div class="bg-[#3f4661] text-white p-8 flex flex-col justify-center items-start h-full">
+      <h1 class="text-4xl font-pacifico mb-6">Admin Survei</h1>
+      <p class="text-sm font-light">Selamat datang! Silakan login untuk mengakses dashboard admin.</p>
+      <img src="images/logo.png" alt="Logo" class="w-32 mt-10 opacity-70" />
     </div>
 
-    <!-- Right side -->
-    <div class="flex-1 flex flex-col items-center justify-center bg-[#f4f4f4] px-10">
-      <h1 class="text-[#002147] text-3xl font-orbitron mb-2">Welcome</h1>
-      <p class="text-[#444] text-xs font-orbitron mb-8 tracking-widest">Please Login to Admin Dashboard.</p>
+    <!-- Form Login -->
+    <div class="p-10 bg-white flex items-center justify-center">
+      <form class="w-full max-w-sm space-y-5" onsubmit="event.preventDefault(); loginAdmin();">
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Login Admin</h2>
 
-      <!-- Email input -->
-      <input id="email" type="email" placeholder="Email" class="w-full max-w-sm mb-4 px-4 py-2 border border-gray-300 rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#002147]" />
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-600">Email</label>
+          <input id="email" type="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="admin@email.com" />
+        </div>
 
-      <!-- Password with eye icon -->
-      <div class="relative w-full max-w-sm mb-6">
-        <input id="password" type="password" placeholder="Password"
-          class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#002147]" />
-        <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800">
-          <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
+        <div class="relative">
+          <label class="block mb-1 text-sm font-medium text-gray-600">Password</label>
+          <input id="password" type="password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********" />
+          <button type="button" onclick="togglePassword()" class="absolute right-3 top-9 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor">
+              <g id="eyeIcon">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5
+                   c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <div id="loginStatus" class="text-sm text-red-500 font-medium"></div>
+
+        <button type="submit" class="w-full bg-[#0d47a1] text-white py-2 rounded-lg hover:bg-blue-800 transition duration-200">
+          Login
         </button>
-      </div>
-
-      <!-- Login Button -->
-      <button onclick="loginAdmin()" class="w-full max-w-sm bg-[#FFD700] text-[#002147] font-orbitron py-3 rounded-md tracking-widest hover:bg-yellow-400 transition-colors">
-        Login
-      </button>
-
-      <!-- Status -->
-      <p id="loginStatus" class="text-red-600 text-sm mt-4 tracking-widest"></p>
-      <!-- <p class="text-gray-600 text-xs font-orbitron mt-6 tracking-widest">Forgotten Your Password?</p> -->
+        <p class="text-xs text-gray-500 text-center">© 2025 www.sisfo22uh.com</p>
+      </form>
     </div>
   </div>
 
@@ -67,6 +70,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <script>
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCr_Cf37bJxVdExfrJ-CjWzpfjvAiQ0tAQ",
       authDomain: "surveikppnmajene.firebaseapp.com",
@@ -76,15 +80,19 @@
       messagingSenderId: "640777729032",
       appId: "1:640777729032:web:a33f948c1d985b9d560dbd"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
+    // Login function
     function loginAdmin() {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
       const status = document.getElementById("loginStatus");
 
-      if (email === "" || password === "") {
+      status.textContent = "";
+
+      if (!email || !password) {
         status.textContent = "❌ Email dan password tidak boleh kosong.";
         return;
       }
@@ -104,25 +112,15 @@
         });
     }
 
+    // Show/hide password
     function togglePassword() {
       const passwordInput = document.getElementById("password");
       const eyeIcon = document.getElementById("eyeIcon");
 
       if (passwordInput.type === "password") {
         passwordInput.type = "text";
-        eyeIcon.innerHTML = `
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.269-2.943-9.543-7a9.97 9.97 0 012.341-3.857m3.665-2.399A9.956 9.956 0 0112 5
-             c4.478 0 8.269 2.943 9.543 7a9.973 9.973 0 01-4.273 5.066M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />`;
       } else {
         passwordInput.type = "password";
-        eyeIcon.innerHTML = `
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M2.458 12C3.732 7.943 7.523 5 12 5
-             c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
       }
     }
   </script>
